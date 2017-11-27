@@ -99,6 +99,7 @@ class Projects extends AbstractApi
     public function create($name, array $params = array())
     {
         $params['name'] = $name;
+        $params = array_filter($params, function($arrayElement){ return !is_null($arrayElement); });
 
         return $this->post('projects', $params);
     }

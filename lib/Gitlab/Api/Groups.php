@@ -65,16 +65,25 @@ class Groups extends AbstractApi
      * @param string $path
      * @param string $description
      * @param string $visibility
+     * @param bool   $lfs_enabled
+     * @param bool   $request_access_enabled
+     * @param int    $parent_id
      * @return mixed
      */
-    public function create($name, $path, $description = null, $visibility = 'private')
+    public function create($name, $path, $description = null, $visibility = 'private', $lfs_enabled = null, $request_access_enabled = null, $parent_id = null)
     {
-        return $this->post('groups', array(
+        $parameters = array(
             'name' => $name,
             'path' => $path,
             'description' => $description,
             'visibility' => $visibility,
-        ));
+            'lfs_enabled' => $lfs_enabled,
+            'request_access_enabled' => $request_access_enabled,
+            'parent_id' => $parent_id,
+        );
+        $parameters = array_filter($parameters, function($arrayElement){ return !is_null($arrayElement); });
+
+        return $this->post('groups', $parameters);
     }
 
     /**
